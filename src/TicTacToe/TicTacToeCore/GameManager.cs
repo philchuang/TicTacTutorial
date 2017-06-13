@@ -10,19 +10,22 @@ namespace Com.PhilChuang.Apps.TicTacToe
     {
         public Game CreateNew()
         {
+            var player1 = new Player
+            {
+                Mark = 'X',
+                Name = "Player 1",
+            };
+            var player2 = new Player
+            {
+                Mark = 'O',
+                Name = "Player 2",
+            };
+
             return new Game
             {
-                Player1 = new Player
-                {
-                    Mark = 'X',
-                    Name = "Player 1",
-                },
-                Player2 = new Player
-                {
-                    Mark = 'O',
-                    Name = "Player 2",
-                },
-                PlayerTurn = "Player 1",
+                Player1 = player1,
+                Player2 = player2,
+                PlayerTurn = player1.Name,
                 IsFinished = false,
                 IsDraw = false,
                 Winner = null,

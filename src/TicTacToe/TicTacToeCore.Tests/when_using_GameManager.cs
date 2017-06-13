@@ -49,7 +49,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         [TestMethod]
         public void then_PlayerTurn_should_be_Player_1()
         {
-            Assert.AreEqual("Player 1", game.PlayerTurn, "game.PlayerTurn");
+            Assert.AreEqual(game.Player1.Name, game.PlayerTurn, "game.PlayerTurn");
         }
 
         [TestMethod]
