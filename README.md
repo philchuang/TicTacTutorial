@@ -1,5 +1,7 @@
 [Tic Tac Tutorial Series](https://philchuang.com/tic-tac-tutorial/)
 
 [Part 1 - Introduction](https://philchuang.com/tic-tac-tutorial-introduction/)
+* Defined the TicTacToe entites, but no logic implementation yet.
 
-* Defined the TicTacToe entites, but no logic yet.
+[Part 2 - Test-Driven Development](https://philchuang.com/tic-tac-tutorial…iven-development/)
+* Began writing tests to implement game logic.
