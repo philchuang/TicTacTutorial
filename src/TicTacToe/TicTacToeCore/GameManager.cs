@@ -25,7 +25,7 @@ namespace Com.PhilChuang.Apps.TicTacToe
             {
                 Player1 = player1,
                 Player2 = player2,
-                PlayerTurn = player1.Name,
+                PlayerTurn = player1,
                 IsFinished = false,
                 IsDraw = false,
                 Winner = null,

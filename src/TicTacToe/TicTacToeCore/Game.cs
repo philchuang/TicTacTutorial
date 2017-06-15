@@ -19,9 +19,9 @@ namespace Com.PhilChuang.Apps.TicTacToe
         public Player Player2 { get; set; }
 
         /// <summary>
-        /// The name of the player whose move it is
+        /// The player whose move it is
         /// </summary>
-        public string PlayerTurn { get; set; }
+        public Player PlayerTurn { get; set; }
 
         /// <summary>
         /// Whether or not the game is finished
@@ -54,39 +54,39 @@ namespace Com.PhilChuang.Apps.TicTacToe
             {
                 case 1:
                     if (this.Board.Square1 != null) return false;
-                    this.Board.Square1 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square1 = this.PlayerTurn.Mark;
                     break;
                 case 2:
                     if (this.Board.Square2 != null) return false;
-                    this.Board.Square2 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square2 = this.PlayerTurn.Mark;
                     break;
                 case 3:
                     if (this.Board.Square3 != null) return false;
-                    this.Board.Square3 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square3 = this.PlayerTurn.Mark;
                     break;
                 case 4:
                     if (this.Board.Square4 != null) return false;
-                    this.Board.Square4 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square4 = this.PlayerTurn.Mark;
                     break;
                 case 5:
                     if (this.Board.Square5 != null) return false;
-                    this.Board.Square5 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square5 = this.PlayerTurn.Mark;
                     break;
                 case 6:
                     if (this.Board.Square6 != null) return false;
-                    this.Board.Square6 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square6 = this.PlayerTurn.Mark;
                     break;
                 case 7:
                     if (this.Board.Square7 != null) return false;
-                    this.Board.Square7 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square7 = this.PlayerTurn.Mark;
                     break;
                 case 8:
                     if (this.Board.Square8 != null) return false;
-                    this.Board.Square8 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square8 = this.PlayerTurn.Mark;
                     break;
                 case 9:
                     if (this.Board.Square9 != null) return false;
-                    this.Board.Square9 = this.GetCurrentPlayer().Mark;
+                    this.Board.Square9 = this.PlayerTurn.Mark;
                     break;
                 default:
                     return false;
@@ -95,11 +95,6 @@ namespace Com.PhilChuang.Apps.TicTacToe
             CheckIfGameIsFinished();
             SwitchPlayerTurn();
             return true;
-        }
-
-        private Player GetCurrentPlayer()
-        {
-            return this.GetPlayerByName(this.PlayerTurn);
         }
 
         private Player GetPlayerByName(string name)
@@ -133,13 +128,13 @@ namespace Com.PhilChuang.Apps.TicTacToe
         /// <summary>
         /// Finishes the game as a Victory
         /// </summary>
-        /// <param name="playerName">the winning player name</param>
-        private void FinishAsVictory(string playerName)
+        /// <param name="player">the winning player</param>
+        private void FinishAsVictory(Player player)
         {
             this.IsFinished = true;
             this.IsDraw = false;
             this.PlayerTurn = null;
-            this.Winner = playerName;
+            this.Winner = player.Name;
         }
 
         /// <summary>
@@ -160,13 +155,13 @@ namespace Com.PhilChuang.Apps.TicTacToe
         {
             if (this.IsFinished) return;
 
-            if (string.Equals(this.PlayerTurn, this.Player1.Name))
+            if (ReferenceEquals(this.PlayerTurn, this.Player1))
             {
-                this.PlayerTurn = this.Player2.Name;
+                this.PlayerTurn = this.Player2;
             }
             else
             {
-                this.PlayerTurn = this.Player1.Name;
+                this.PlayerTurn = this.Player1;
             }
         }
     }

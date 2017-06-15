@@ -22,7 +22,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             Assert.IsNotNull(game.Player2, "game.Player2");
             Assert.AreEqual('O', game.Player2.Mark, "game.Player2.Mark");
             Assert.AreEqual("Player 2", game.Player2.Name, "game.Player2.Name");
-            Assert.AreEqual(game.Player1.Name, game.PlayerTurn, "game.PlayerTurn");
+            Assert.AreEqual(game.Player1, game.PlayerTurn, "game.PlayerTurn");
             Assert.IsFalse(game.IsFinished, "game.IsFinished");
             Assert.IsFalse(game.IsDraw, "game.IsDraw");
             Assert.IsNull(game.Winner, "game.Winner");
