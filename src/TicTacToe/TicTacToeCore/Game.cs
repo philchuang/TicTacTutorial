@@ -34,9 +34,9 @@ namespace Com.PhilChuang.Apps.TicTacToe
         public bool IsDraw { get; set; }
 
         /// <summary>
-        /// The name of the player that won the game
+        /// The player that won the game
         /// </summary>
-        public string Winner { get; set; }
+        public Player Winner { get; set; }
 
         /// <summary>
         /// The game board
@@ -134,7 +134,7 @@ namespace Com.PhilChuang.Apps.TicTacToe
             this.IsFinished = true;
             this.IsDraw = false;
             this.PlayerTurn = null;
-            this.Winner = player.Name;
+            this.Winner = player;
         }
 
         /// <summary>

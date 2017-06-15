@@ -123,7 +123,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             Assert.IsTrue(game.IsFinished, "game.IsFinished");
             Assert.IsFalse(game.IsDraw, "game.IsDraw");
             Assert.IsNull(game.PlayerTurn, "game.PlayerTurn");
-            Assert.AreEqual(game.Player1.Name, game.Winner, "game.Winner");
+            Assert.AreEqual(game.Player1, game.Winner, "game.Winner");
         }
 
         [TestMethod]
