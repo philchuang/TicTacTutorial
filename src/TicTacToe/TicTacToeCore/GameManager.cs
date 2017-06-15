@@ -29,18 +29,7 @@ namespace Com.PhilChuang.Apps.TicTacToe
                 IsFinished = false,
                 IsDraw = false,
                 Winner = null,
-                Board = new Board
-                {
-                    Square1 = null,
-                    Square2 = null,
-                    Square3 = null,
-                    Square4 = null,
-                    Square5 = null,
-                    Square6 = null,
-                    Square7 = null,
-                    Square8 = null,
-                    Square9 = null,
-                }
+                Board = new Board(),
             };
         }
     }

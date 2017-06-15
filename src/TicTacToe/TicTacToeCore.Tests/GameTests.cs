@@ -21,11 +21,18 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Game_MakeMove_with_invalid_square_number_should_throw_exception()
+        {
+            game.MakeMove(10);
+        }
+
+        [TestMethod]
         public void Game_MakeMove_with_empty_board_should_allow_move_for_square_1()
         {
             var moveSuccess = game.MakeMove(1);
             Assert.IsTrue(moveSuccess, nameof(moveSuccess));
-            Assert.AreEqual('X', game.Board.Square1);
+            Assert.AreEqual('X', game.Board[1]);
         }
 
         [TestMethod]
@@ -33,7 +40,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         {
             var moveSuccess = game.MakeMove(2);
             Assert.IsTrue(moveSuccess, nameof(moveSuccess));
-            Assert.AreEqual('X', game.Board.Square2);
+            Assert.AreEqual('X', game.Board[2]);
         }
 
         [TestMethod]
@@ -41,7 +48,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         {
             var moveSuccess = game.MakeMove(3);
             Assert.IsTrue(moveSuccess, nameof(moveSuccess));
-            Assert.AreEqual('X', game.Board.Square3);
+            Assert.AreEqual('X', game.Board[3]);
         }
 
         [TestMethod]
@@ -60,12 +67,12 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             // initial move
             var move1Success = game.MakeMove(1);
             Assert.IsTrue(move1Success, nameof(move1Success));
-            Assert.AreEqual('X', game.Board.Square1);
+            Assert.AreEqual('X', game.Board[1]);
 
             // following move
             var move2Success = game.MakeMove(1);
             Assert.IsFalse(move2Success, nameof(move2Success));
-            Assert.AreEqual('X', game.Board.Square1);
+            Assert.AreEqual('X', game.Board[1]);
         }
 
         [TestMethod]
@@ -74,12 +81,12 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             // initial move
             var move1Success = game.MakeMove(2);
             Assert.IsTrue(move1Success, nameof(move1Success));
-            Assert.AreEqual('X', game.Board.Square2);
+            Assert.AreEqual('X', game.Board[2]);
 
             // following move
             var move2Success = game.MakeMove(2);
             Assert.IsFalse(move2Success, nameof(move2Success));
-            Assert.AreEqual('X', game.Board.Square2);
+            Assert.AreEqual('X', game.Board[2]);
         }
 
         [TestMethod]
@@ -88,12 +95,12 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             // initial move
             var move1Success = game.MakeMove(3);
             Assert.IsTrue(move1Success, nameof(move1Success));
-            Assert.AreEqual('X', game.Board.Square3);
+            Assert.AreEqual('X', game.Board[3]);
 
             // following move
             var move2Success = game.MakeMove(3);
             Assert.IsFalse(move2Success, nameof(move2Success));
-            Assert.AreEqual('X', game.Board.Square3);
+            Assert.AreEqual('X', game.Board[3]);
         }
 
         [TestMethod]

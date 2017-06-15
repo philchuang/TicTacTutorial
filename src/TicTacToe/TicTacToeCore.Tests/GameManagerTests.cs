@@ -27,15 +27,15 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             Assert.IsFalse(game.IsDraw, "game.IsDraw");
             Assert.IsNull(game.Winner, "game.Winner");
             Assert.IsNotNull(game.Board, "game.Board");
-            Assert.IsNull(game.Board.Square1, "game.Board.Square1");
-            Assert.IsNull(game.Board.Square2, "game.Board.Square2");
-            Assert.IsNull(game.Board.Square3, "game.Board.Square3");
-            Assert.IsNull(game.Board.Square4, "game.Board.Square4");
-            Assert.IsNull(game.Board.Square5, "game.Board.Square5");
-            Assert.IsNull(game.Board.Square6, "game.Board.Square6");
-            Assert.IsNull(game.Board.Square7, "game.Board.Square7");
-            Assert.IsNull(game.Board.Square8, "game.Board.Square8");
-            Assert.IsNull(game.Board.Square9, "game.Board.Square9");
+            Assert.IsNull(game.Board[1], "game.Board[1]");
+            Assert.IsNull(game.Board[2], "game.Board[2]");
+            Assert.IsNull(game.Board[3], "game.Board[3]");
+            Assert.IsNull(game.Board[4], "game.Board[4]");
+            Assert.IsNull(game.Board[5], "game.Board[5]");
+            Assert.IsNull(game.Board[6], "game.Board[6]");
+            Assert.IsNull(game.Board[7], "game.Board[7]");
+            Assert.IsNull(game.Board[8], "game.Board[8]");
+            Assert.IsNull(game.Board[9], "game.Board[9]");
         }
     }
 }
