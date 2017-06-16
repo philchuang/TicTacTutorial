@@ -65,19 +65,21 @@ namespace Com.PhilChuang.Apps.TicTacToe
 
         private void CheckIfGameIsFinished()
         {
-            // top across victory
-            if (this.Board[1] != null
-                && this.Board[1] == this.Board[2]
-                && this.Board[1] == this.Board[3])
+            if (this.Board.HasSameMarks(Board.TopRowSquares)
+                || this.Board.HasSameMarks(Board.MiddleRowSquares)
+                || this.Board.HasSameMarks(Board.BottomRowSquares)
+                || this.Board.HasSameMarks(Board.LeftColumnSquares)
+                || this.Board.HasSameMarks(Board.MiddleColumnSquares)
+                || this.Board.HasSameMarks(Board.RightColumnSquares)
+                || this.Board.HasSameMarks(Board.DownRightDiagonalSquares)
+                || this.Board.HasSameMarks(Board.DownLeftDiagonalSquares))
             {
                 FinishAsVictory(this.PlayerTurn);
                 return;
             }
 
             // no other victory conditions have been detected, so check to see if all squares are filled
-            if (this.Board[1] != null && this.Board[2] != null && this.Board[3] != null
-                && this.Board[4] != null && this.Board[5] != null && this.Board[6] != null
-                && this.Board[7] != null && this.Board[8] != null && this.Board[9] != null)
+            if (this.Board.IsFilled())
             {
                 FinishAsDraw();
             }

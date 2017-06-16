@@ -28,27 +28,17 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         }
 
         [TestMethod]
-        public void Game_MakeMove_with_empty_board_should_allow_move_for_square_1()
+        public void Game_MakeMove_with_empty_board_should_allow_move_for_any_square()
         {
-            var moveSuccess = game.MakeMove(1);
-            Assert.IsTrue(moveSuccess, nameof(moveSuccess));
-            Assert.AreEqual('X', game.Board[1]);
-        }
-
-        [TestMethod]
-        public void Game_MakeMove_with_empty_board_should_allow_move_for_square_2()
-        {
-            var moveSuccess = game.MakeMove(2);
-            Assert.IsTrue(moveSuccess, nameof(moveSuccess));
-            Assert.AreEqual('X', game.Board[2]);
-        }
-
-        [TestMethod]
-        public void Game_MakeMove_with_empty_board_should_allow_move_for_square_3()
-        {
-            var moveSuccess = game.MakeMove(3);
-            Assert.IsTrue(moveSuccess, nameof(moveSuccess));
-            Assert.AreEqual('X', game.Board[3]);
+            TestCaseRunner.Execute(
+                Enumerable.Range(1, 9),
+                square =>
+                {
+                    game = gameMgr.CreateNew();
+                    var moveSuccess = game.MakeMove(square);
+                    Assert.IsTrue(moveSuccess, nameof(moveSuccess));
+                    Assert.AreEqual('X', game.Board[square], $"Failed for square {square}");
+                });
         }
 
         [TestMethod]
@@ -62,105 +52,150 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         }
 
         [TestMethod]
-        public void Game_MakeMove_with_empty_board_should_deny_move_for_square_1()
+        public void Game_MakeMove_with_filled_square_should_deny_move_for_same_square()
         {
-            // initial move
-            var move1Success = game.MakeMove(1);
-            Assert.IsTrue(move1Success, nameof(move1Success));
-            Assert.AreEqual('X', game.Board[1]);
+            TestCaseRunner.Execute(
+                Enumerable.Range(1, 9),
+                square =>
+                {
+                    game = gameMgr.CreateNew();
 
-            // following move
-            var move2Success = game.MakeMove(1);
-            Assert.IsFalse(move2Success, nameof(move2Success));
-            Assert.AreEqual('X', game.Board[1]);
-        }
+                    // initial move
+                    var move1Success = game.MakeMove(square);
+                    Assert.IsTrue(move1Success, $"initial move to square {square} should have been successful.");
+                    Assert.AreEqual('X', game.Board[square], $"square {square} should be marked 'X'");
 
-        [TestMethod]
-        public void Game_MakeMove_with_empty_board_should_deny_move_for_square_2()
-        {
-            // initial move
-            var move1Success = game.MakeMove(2);
-            Assert.IsTrue(move1Success, nameof(move1Success));
-            Assert.AreEqual('X', game.Board[2]);
-
-            // following move
-            var move2Success = game.MakeMove(2);
-            Assert.IsFalse(move2Success, nameof(move2Success));
-            Assert.AreEqual('X', game.Board[2]);
-        }
-
-        [TestMethod]
-        public void Game_MakeMove_with_empty_board_should_deny_move_for_square_3()
-        {
-            // initial move
-            var move1Success = game.MakeMove(3);
-            Assert.IsTrue(move1Success, nameof(move1Success));
-            Assert.AreEqual('X', game.Board[3]);
-
-            // following move
-            var move2Success = game.MakeMove(3);
-            Assert.IsFalse(move2Success, nameof(move2Success));
-            Assert.AreEqual('X', game.Board[3]);
+                    // following move
+                    var move2Success = game.MakeMove(square);
+                    Assert.IsFalse(move2Success, $"following move to square {square} should NOT have been successful.");
+                    Assert.AreEqual('X', game.Board[square], $"square {square} should STILL be marked 'X'");
+                });
         }
 
         [TestMethod]
         public void Game_MakeMove_after_winning_move_should_update_fields()
         {
-            // handles top across as X
-            var moves = new[] {1, 4, 2, 5, 3};
-
-            // iterate over the moves and test unfinished status
-            for (var moveIdx = 0; moveIdx < moves.Length; moveIdx++)
+            // different win scenarios: (top across, middle across, bottom across, left down, center down, right down, diagonal right, diagonal left) x (X, O) = 16 cases
+            var testCases = new[]
             {
-                var move = moves[moveIdx];
-                var moveSuccess = game.MakeMove(move);
-                Assert.IsTrue(moveSuccess, nameof(moveSuccess));
+                new Tuple<IList<int>, char?>(new[] { 1, 4, 2, 5, 3 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 4, 1, 5, 2, 6 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 7, 1, 8, 2, 9 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 1, 2, 4, 5, 7 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 2, 1, 5, 4, 8 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 3, 1, 6, 4, 9 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 1, 2, 5, 3, 9 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 3, 2, 5, 1, 7 }, 'X'),
+                new Tuple<IList<int>, char?>(new[] { 7, 1, 4, 2, 5, 3 }, 'O'),
+                new Tuple<IList<int>, char?>(new[] { 7, 4, 1, 5, 2, 6 }, 'O'),
+                new Tuple<IList<int>, char?>(new[] { 4, 7, 1, 8, 2, 9 }, 'O'),
+                new Tuple<IList<int>, char?>(new[] { 9, 1, 2, 4, 5, 7 }, 'O'),
+                new Tuple<IList<int>, char?>(new[] { 9, 2, 1, 5, 4, 8 }, 'O'),
+                new Tuple<IList<int>, char?>(new[] { 8, 3, 1, 6, 4, 9 }, 'O'),
+                new Tuple<IList<int>, char?>(new[] { 4, 1, 2, 5, 3, 9 }, 'O'),
+                new Tuple<IList<int>, char?>(new[] { 4, 3, 2, 5, 1, 7 }, 'O'),
+            };
 
-                if (moveIdx + 1 != moves.Length)
+            TestCaseRunner.Execute(
+                testCases,
+                testCase =>
                 {
-                    // not the final move
-                    Assert.IsFalse(game.IsFinished, "game.IsFinished");
+                    Console.WriteLine($"Testing:\n{RenderStringGameBoard(testCase.Item1)}");
+
+                    game = gameMgr.CreateNew();
+
+                    // iterate over the moves and test unfinished status
+                    for (var moveIdx = 0; moveIdx < testCase.Item1.Count; moveIdx++)
+                    {
+                        var move = testCase.Item1[moveIdx];
+                        var moveSuccess = game.MakeMove(move);
+                        Assert.IsTrue(moveSuccess, nameof(moveSuccess));
+
+                        if (moveIdx + 1 != testCase.Item1.Count)
+                        {
+                            // not the final move
+                            Assert.IsFalse(game.IsFinished, "game.IsFinished");
+                            Assert.IsFalse(game.IsDraw, "game.IsDraw");
+                            Assert.IsNotNull(game.PlayerTurn, "game.PlayerTurn");
+                            Assert.IsNull(game.Winner, "game.Winner");
+                        }
+                    }
+
+                    // test finished status
+                    Assert.IsTrue(game.IsFinished, "game.IsFinished");
                     Assert.IsFalse(game.IsDraw, "game.IsDraw");
-                    Assert.IsNotNull(game.PlayerTurn, "game.PlayerTurn");
-                    Assert.IsNull(game.Winner, "game.Winner");
-                }
+                    Assert.IsNull(game.PlayerTurn, "game.PlayerTurn");
+                    var player = game.Player1.Mark == testCase.Item2 ? game.Player1 : game.Player2;
+                    Assert.AreEqual(player, game.Winner, "game.Winner");
+                },
+                (testCase, ex) => new AssertFailedException($"Failure \"{ex.Message}\" on test case:\n{RenderStringGameBoard(testCase.Item1)}\n", ex));
+        }
+
+        private string RenderStringGameBoard(IEnumerable<int> gameMoves)
+        {
+            // using 'V' to represent null squares because the test output is not in a fixed-width font
+            var filler = 'V';
+            var board = new[]
+            {
+                filler, filler, filler,
+                filler, filler, filler,
+                filler, filler, filler,
+            };
+            var currentMark = 'X';
+            foreach (var move in gameMoves)
+            {
+                board[move - 1] = currentMark;
+
+                currentMark = currentMark == 'X' ? 'O' : 'X';
             }
 
-            // test finished status
-            Assert.IsTrue(game.IsFinished, "game.IsFinished");
-            Assert.IsFalse(game.IsDraw, "game.IsDraw");
-            Assert.IsNull(game.PlayerTurn, "game.PlayerTurn");
-            Assert.AreEqual(game.Player1, game.Winner, "game.Winner");
+            return $"{board[0]}|{board[1]}|{board[2]}\n" +
+                   $"{board[3]}|{board[4]}|{board[5]}\n" +
+                   $"{board[6]}|{board[7]}|{board[8]}\n";
         }
 
         [TestMethod]
         public void Game_MakeMove_after_draw_move_should_update_fields()
         {
             // maybe try a couple more cases but don't think we should determine them all
-            var moves = new[] { 1, 4, 2, 5, 6, 3, 7, 8, 9 };
-
-            // iterate over the moves and test unfinished status
-            for (var moveIdx = 0; moveIdx < moves.Length; moveIdx++)
+            var testCases = new[]
             {
-                var move = moves[moveIdx];
-                var moveSuccess = game.MakeMove(move);
-                Assert.IsTrue(moveSuccess, nameof(moveSuccess));
+                new[] { 1, 4, 2, 5, 6, 3, 7, 8, 9 },
+                new[] { 1, 5, 4, 7, 3, 2, 8, 6, 9 },
+            };
 
-                if (moveIdx + 1 != moves.Length)
+            TestCaseRunner.Execute(
+                testCases,
+                moves =>
                 {
-                    // not the final move
-                    Assert.IsFalse(game.IsFinished, "game.IsFinished");
-                    Assert.IsFalse(game.IsDraw, "game.IsDraw");
-                    Assert.IsNotNull(game.PlayerTurn, "game.PlayerTurn");
-                    Assert.IsNull(game.Winner, "game.Winner");
-                }
-            }
+                    Console.WriteLine($"Testing:\n{RenderStringGameBoard(moves)}");
 
-            // test finished status
-            Assert.IsTrue(game.IsFinished, "game.IsFinished");
-            Assert.IsTrue(game.IsDraw, "game.IsDraw");
-            Assert.IsNull(game.PlayerTurn, "game.PlayerTurn");
-            Assert.IsNull(game.Winner, "game.Winner");
+                    game = gameMgr.CreateNew();
+
+                    // iterate over the moves and test unfinished status
+                    for (var moveIdx = 0; moveIdx < moves.Length; moveIdx++)
+                    {
+                        var move = moves[moveIdx];
+                        var moveSuccess = game.MakeMove(move);
+                        Assert.IsTrue(moveSuccess, nameof(moveSuccess));
+
+                        if (moveIdx + 1 != moves.Length)
+                        {
+                            // not the final move
+                            Assert.IsFalse(game.IsFinished, "game.IsFinished");
+                            Assert.IsFalse(game.IsDraw, "game.IsDraw");
+                            Assert.IsNotNull(game.PlayerTurn, "game.PlayerTurn");
+                            Assert.IsNull(game.Winner, "game.Winner");
+                        }
+                    }
+
+                    // test finished status
+                    Assert.IsTrue(game.IsFinished, "game.IsFinished");
+                    Assert.IsTrue(game.IsDraw, "game.IsDraw");
+                    Assert.IsNull(game.PlayerTurn, "game.PlayerTurn");
+                    Assert.IsNull(game.Winner, "game.Winner");
+                },
+                (moves, ex) => new AssertFailedException($"Failure \"{ex.Message}\" on test case:\n{RenderStringGameBoard(moves)}\n", ex));
         }
     }
 }
