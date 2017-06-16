@@ -11,37 +11,42 @@ namespace Com.PhilChuang.Apps.TicTacToe
         /// <summary>
         /// The X player
         /// </summary>
-        public Player Player1 { get; set; }
+        public Player Player1 { get; internal set; }
 
         /// <summary>
         /// The O player
         /// </summary>
-        public Player Player2 { get; set; }
+        public Player Player2 { get; internal set; }
 
         /// <summary>
         /// The player whose move it is
         /// </summary>
-        public Player PlayerTurn { get; set; }
+        public Player PlayerTurn { get; internal set; }
 
         /// <summary>
         /// Whether or not the game is finished
         /// </summary>
-        public bool IsFinished { get; set; }
+        public bool IsFinished { get; private set; }
 
         /// <summary>
         /// Whether or not the game is a draw
         /// </summary>
-        public bool IsDraw { get; set; }
+        public bool IsDraw { get; private set; }
 
         /// <summary>
         /// The player that won the game
         /// </summary>
-        public Player Winner { get; set; }
+        public Player Winner { get; private set; }
 
         /// <summary>
         /// The game board
         /// </summary>
-        public Board Board { get; set; }
+        public Board Board { get; }
+
+        public Game()
+        {
+            this.Board = new Board();
+        }
 
         /// <summary>
         /// Makes a move for the current Player onto the given square

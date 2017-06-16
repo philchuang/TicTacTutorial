@@ -9,13 +9,19 @@ namespace Com.PhilChuang.Apps.TicTacToe
     public class Player
     {
         /// <summary>
-        /// X, O, or uninitialized
+        /// The player's mark (traditionally X or O)
         /// </summary>
-        public char? Mark { get; set; }
+        public char Mark { get; set; }
 
         /// <summary>
         /// The player's name
         /// </summary>
         public string Name { get; set; }
+
+        public Player(string name, char mark)
+        {
+            this.Name = name;
+            this.Mark = mark;
+        }
     }
 }
