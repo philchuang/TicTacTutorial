@@ -83,5 +83,43 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             Assert.AreEqual('O', game.Player2.Mark, "game.Player2.Mark");
             Assert.AreEqual(firstPlayer, game.Player2.Name, "game.Player2.Name");
         }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public void GameManager_CreateNewRandom_should_swap_players_50_pct_of_the_time()
+        {
+            // need a large number of runs to ensure a smooth statistical distribution
+            var testRuns = 10000;
+            var numSwapped = 0;
+            var numNotSwapped = 0;
+            var player1 = Guid.NewGuid().ToString();
+            var player2 = Guid.NewGuid().ToString();
+            var gameManager = new GameManager();
+
+            for (var i = 0; i < testRuns; i++)
+            {
+                var game = gameManager.CreateNewRandom(player1, player2);
+
+                if (game.Player1.Name == player1)
+                {
+                    numNotSwapped++;
+                }
+                else
+                {
+                    numSwapped++;
+                }
+            }
+
+            // expect 1:1
+            var expectedRatio = 0.5d;
+            // but give it 10% margin of error either way
+            var marginOfError = 0.1d;
+
+            var actualRatio = Math.Abs(numSwapped / (double) testRuns);
+
+            Console.WriteLine($"Swapped: {numSwapped}, not swapped: {numNotSwapped}, total: {testRuns}, ratio: {actualRatio:0.000}");
+
+            Assert.IsTrue(Math.Abs(actualRatio-expectedRatio) <= marginOfError, $"Expected a ratio of {expectedRatio:0.000} but got {actualRatio:0.000}");
+        }
     }
 }
