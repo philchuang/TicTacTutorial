@@ -11,6 +11,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
     public class EndToEndTests
     {
         [TestMethod]
+        [TestCategory("E2E")]
         public void Can_play_a_game_to_completion_where_X_wins()
         {
             var mgr = new GameManager();

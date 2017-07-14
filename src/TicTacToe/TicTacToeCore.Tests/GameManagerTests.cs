@@ -1,5 +1,6 @@
 ﻿using System;
 using Com.PhilChuang.Apps.TicTacToe.Tests.Testable;
+using Com.PhilChuang.Apps.TicTacToe.Tests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Com.PhilChuang.Apps.TicTacToe.Tests
@@ -11,7 +12,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         public void GameManager_CreateNew_should_return_a_new_game()
         {
             // Arrange
-            var gameManager = new GameManager();
+            var gameManager = new GameManagerTestable();
 
             // Act
             var game = gameManager.CreateNew();
@@ -47,7 +48,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             var gameManager = new GameManagerTestable();
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
-            gameManager.RandomProviderGetOverride = m => 0;
+            gameManager.MakeRandomProviderOverride = () => new RandomProviderStubReturns0();
 
             // Act
             var game = gameManager.CreateNewRandom(firstPlayer, secondPlayer);
@@ -69,7 +70,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             var gameManager = new GameManagerTestable();
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
-            gameManager.RandomProviderGetOverride = m => 1;
+            gameManager.MakeRandomProviderOverride = () => new RandomProviderStubReturns1();
 
             // Act
             var game = gameManager.CreateNewRandom(firstPlayer, secondPlayer);
@@ -85,6 +86,26 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         }
 
         [TestMethod]
+        public void GameManager_CreateNewRandom_calls_RandomProvider()
+        {
+            // Arrange
+            var gameManager = new GameManagerTestable();
+            var firstPlayer = Guid.NewGuid().ToString();
+            var secondPlayer = Guid.NewGuid().ToString();
+            var expectedReturnValueForRandomProviderGet = 1;
+            var spy = new RandomProviderSpy(new RandomProviderMock { GetOverride = maxValue => expectedReturnValueForRandomProviderGet });
+            gameManager.MakeRandomProviderOverride = () => spy;
+
+            // Act
+            var game = gameManager.CreateNewRandom(firstPlayer, secondPlayer);
+
+            // Assert
+            Assert.AreEqual(1, spy.GetSpy.Calls.Count, "Expected 1 call to RandomProvider.Get()");
+            Assert.AreEqual(2, spy.GetSpy.Calls[0].Item1, "Expected maxValue parameter of RandomProvider.Get() call #1 to be \"2\"");
+            Assert.AreEqual(expectedReturnValueForRandomProviderGet, spy.GetSpy.Calls[0].Item2, $"Expected return value of RandomProvider.Get() call #1 to be \"{expectedReturnValueForRandomProviderGet}\"");
+        }
+
+        [TestMethod]
         [TestCategory("Integration")]
         public void GameManager_CreateNewRandom_should_swap_players_50_pct_of_the_time()
         {
@@ -94,7 +115,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             var numNotSwapped = 0;
             var player1 = Guid.NewGuid().ToString();
             var player2 = Guid.NewGuid().ToString();
-            var gameManager = new GameManager();
+            var gameManager = new GameManagerTestable();
 
             for (var i = 0; i < testRuns; i++)
             {

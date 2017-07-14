@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace Com.PhilChuang.Apps.TicTacToe.Tests.TestDoubles
 {
-    public class RandomProviderStub : RandomProviderBase
+    public class RandomProviderFake : RandomProviderBase
     {
-        public Func<int?, int> GetOverride { get; set; }
+        private int lastValue = 0;
 
         public override int Get(int? maxValue = null)
         {
-            return this.GetOverride(maxValue);
+            if (lastValue == 1) lastValue = 0;
+            return lastValue++;
         }
     }
 }

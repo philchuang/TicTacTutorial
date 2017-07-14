@@ -9,15 +9,12 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests.Testable
 {
     public class GameManagerTestable : GameManager
     {
-        public Func<int?, int> RandomProviderGetOverride
-        {
-            get { return ((RandomProviderStub) this.RandomProvider).GetOverride; }
-            set { ((RandomProviderStub) this.RandomProvider).GetOverride = value; }
-        }
+        // NOTE this could also just be a plain RandomProviderBase property instead of a lambda, but I like lambdas because it has more flexibility
+        public Func<RandomProviderBase> MakeRandomProviderOverride { get; set; }
 
         protected override RandomProviderBase MakeRandomProvider()
         {
-            return new RandomProviderStub();
+            return (this.MakeRandomProviderOverride ?? base.MakeRandomProvider)();
         }
     }
 }
