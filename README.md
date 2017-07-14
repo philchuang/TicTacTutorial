@@ -8,3 +8,9 @@
 
 [Part 3 - Red-Green-Refactor](https://philchuang.com/tic-tac-tutorial-red-green-refactor/)
 * Refactored code and used existing tests to confirm everything still works
+
+[Part 4 - Unit, Integration, and End-To-End Tests](https://philchuang.com/tic-tac-tutorial-unit-integration-end-to-end-tests/)
+* No code changes from this article
+
+[Part 5 - Test Doubles](https://philchuang.com/tic-tac-tutorial-test-doubles/)
+* Implemented different kinds of test doubles and wrote tests that use them
