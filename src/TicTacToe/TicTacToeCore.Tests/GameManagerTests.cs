@@ -44,10 +44,9 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         public void GameManager_CreateNewRandom_with_random_0_should_not_swap_players()
         {
             // Arrange
-            var gameManager = new GameManager(null);
+            var gameManager = new GameManager(new RandomProviderStubReturns0());
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
-            //gameManager.MakeRandomProviderOverride = () => new RandomProviderStubReturns0();
 
             // Act
             var game = gameManager.CreateNewRandom(firstPlayer, secondPlayer);
@@ -66,10 +65,9 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         public void GameManager_CreateNewRandom_with_random_1_should_swap_players()
         {
             // Arrange
-            var gameManager = new GameManager(null);
+            var gameManager = new GameManager(new RandomProviderStubReturns1());
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
-            //gameManager.MakeRandomProviderOverride = () => new RandomProviderStubReturns1();
 
             // Act
             var game = gameManager.CreateNewRandom(firstPlayer, secondPlayer);
@@ -88,12 +86,12 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         public void GameManager_CreateNewRandom_calls_RandomProvider()
         {
             // Arrange
-            var gameManager = new GameManager(null);
+            var expectedReturnValueForRandomProviderGet = 1;
+            var spy = new RandomProviderSpy(
+                new RandomProviderMock { GetOverride = maxValue => expectedReturnValueForRandomProviderGet });
+            var gameManager = new GameManager(spy);
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
-            var expectedReturnValueForRandomProviderGet = 1;
-            var spy = new RandomProviderSpy(new RandomProviderMock { GetOverride = maxValue => expectedReturnValueForRandomProviderGet });
-            //gameManager.MakeRandomProviderOverride = () => spy;
 
             // Act
             var game = gameManager.CreateNewRandom(firstPlayer, secondPlayer);
@@ -114,7 +112,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             var numNotSwapped = 0;
             var player1 = Guid.NewGuid().ToString();
             var player2 = Guid.NewGuid().ToString();
-            var gameManager = new GameManager(null);
+            var gameManager = new GameManager(new RandomProvider());
 
             for (var i = 0; i < testRuns; i++)
             {
