@@ -1,6 +1,6 @@
 ﻿using System;
-using Com.PhilChuang.Apps.TicTacToe.Tests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Com.PhilChuang.Apps.TicTacToe.Tests
 {
@@ -44,7 +44,9 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         public void GameManager_CreateNewRandom_with_random_0_should_not_swap_players()
         {
             // Arrange
-            var gameManager = new GameManager(new RandomProviderStubReturns0());
+            var randomMock = new Mock<IRandomProvider>(MockBehavior.Strict);
+            randomMock.Setup(m => m.Get(It.IsAny<int?>())).Returns(0);
+            var gameManager = new GameManager(randomMock.Object);
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
 
@@ -65,7 +67,9 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         public void GameManager_CreateNewRandom_with_random_1_should_swap_players()
         {
             // Arrange
-            var gameManager = new GameManager(new RandomProviderStubReturns1());
+            var randomMock = new Mock<IRandomProvider>(MockBehavior.Strict);
+            randomMock.Setup(m => m.Get(It.IsAny<int?>())).Returns(1);
+            var gameManager = new GameManager(randomMock.Object);
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
 
@@ -87,9 +91,9 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         {
             // Arrange
             var expectedReturnValueForRandomProviderGet = 1;
-            var spy = new RandomProviderSpy(
-                new RandomProviderMock { GetOverride = maxValue => expectedReturnValueForRandomProviderGet });
-            var gameManager = new GameManager(spy);
+            var randomMock = new Mock<IRandomProvider>(MockBehavior.Strict);
+            randomMock.Setup(m => m.Get(It.IsAny<int?>())).Returns(expectedReturnValueForRandomProviderGet);
+            var gameManager = new GameManager(randomMock.Object);
             var firstPlayer = Guid.NewGuid().ToString();
             var secondPlayer = Guid.NewGuid().ToString();
 
@@ -97,9 +101,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
             var game = gameManager.CreateNewRandom(firstPlayer, secondPlayer);
 
             // Assert
-            Assert.AreEqual(1, spy.GetSpy.Calls.Count, "Expected 1 call to RandomProvider.Get()");
-            Assert.AreEqual(2, spy.GetSpy.Calls[0].Item1, "Expected maxValue parameter of RandomProvider.Get() call #1 to be \"2\"");
-            Assert.AreEqual(expectedReturnValueForRandomProviderGet, spy.GetSpy.Calls[0].Item2, $"Expected return value of RandomProvider.Get() call #1 to be \"{expectedReturnValueForRandomProviderGet}\"");
+            randomMock.Verify(m => m.Get(2), Times.Once());
         }
 
         [TestMethod]
