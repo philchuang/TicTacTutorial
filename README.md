@@ -14,3 +14,6 @@
 
 [Part 5 - Test Doubles](https://philchuang.com/tic-tac-tutorial-test-doubles/)
 * Implemented different kinds of test doubles and wrote tests that use them
+
+[Part 6 - Mocking with Interfaces](https://philchuang.com/tic-tac-tutorial-mocking-interfaces)
+* Replaced abstract base classes with interfaces and hard-coded Test Doubles with [Moq](https://github.com/moq/moq4)
