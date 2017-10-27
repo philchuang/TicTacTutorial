@@ -16,7 +16,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
 
         protected override void Establish_context()
         {
-            gameManager = new GameManager();
+            gameManager = new GameManager(null);
         }
 
         protected override void Because_of()

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Com.PhilChuang.Apps.TicTacToe.Tests.TestDoubles
 {
-    public class RandomProviderMock : RandomProviderBase
+    public class RandomProviderMock : IRandomProvider
     {
         public Func<int?, int> GetOverride { get; set; }
 
-        public override int Get(int? maxValue = null)
+        public int Get(int? maxValue = null)
         {
             return this.GetOverride(maxValue);
         }

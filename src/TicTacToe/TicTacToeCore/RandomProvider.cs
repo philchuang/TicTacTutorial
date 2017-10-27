@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Com.PhilChuang.Apps.TicTacToe
 {
-    public class RandomProvider : RandomProviderBase
+    public class RandomProvider : IRandomProvider
     {
         private readonly Random rnd;
 
@@ -15,7 +15,7 @@ namespace Com.PhilChuang.Apps.TicTacToe
             rnd = seed != null ? new Random(seed.Value) : new Random();
         }
 
-        public override int Get(int? maxValue = null)
+        public int Get(int? maxValue = null)
         {
             return maxValue != null ? rnd.Next(maxValue.Value) : rnd.Next();
         }

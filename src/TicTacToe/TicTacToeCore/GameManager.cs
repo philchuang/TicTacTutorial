@@ -8,13 +8,11 @@ namespace Com.PhilChuang.Apps.TicTacToe
 {
     public class GameManager
     {
-        private RandomProviderBase myRandomProvider;
+        private readonly IRandomProvider RandomProvider;
 
-        protected RandomProviderBase RandomProvider => myRandomProvider ?? (myRandomProvider = this.MakeRandomProvider());
-
-        protected virtual RandomProviderBase MakeRandomProvider()
+        public GameManager(IRandomProvider rand)
         {
-            return new RandomProvider();
+            RandomProvider = rand;
         }
 
         public Game CreateNew(string player1Name = "Player 1", string player2Name = "Player 2")

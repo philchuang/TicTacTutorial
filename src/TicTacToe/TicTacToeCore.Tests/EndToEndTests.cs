@@ -14,7 +14,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         [TestCategory("E2E")]
         public void Can_play_a_game_to_completion_where_X_wins()
         {
-            var mgr = new GameManager();
+            var mgr = new GameManager(null);
             var player1 = Guid.NewGuid().ToString();
             var player2 = Guid.NewGuid().ToString();
             var game = mgr.CreateNew(player1, player2);

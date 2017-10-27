@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Com.PhilChuang.Apps.TicTacToe.Tests.TestDoubles
 {
-    public class RandomProviderFake : RandomProviderBase
+    public class RandomProviderFake : IRandomProvider
     {
         private int lastValue = 0;
 
-        public override int Get(int? maxValue = null)
+        public int Get(int? maxValue = null)
         {
             if (lastValue == 1) lastValue = 0;
             return lastValue++;

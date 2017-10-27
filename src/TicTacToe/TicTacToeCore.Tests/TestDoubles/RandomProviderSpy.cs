@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Com.PhilChuang.Apps.TicTacToe.Tests.TestDoubles
 {
-    public class RandomProviderSpy : RandomProviderBase
+    public class RandomProviderSpy : IRandomProvider
     {
-        public RandomProviderSpy(RandomProviderBase underlyingImpl)
+        public RandomProviderSpy(IRandomProvider underlyingImpl)
         {
             this.Implementation = underlyingImpl;
             this.GetSpy = new FuncSpy<int?, int>(this.Implementation.Get);
         }
 
-        public RandomProviderBase Implementation { get; }
+        public IRandomProvider Implementation { get; }
 
         public FuncSpy<int?, int> GetSpy { get; }
 
-        public override int Get(int? maxValue = null)
+        public int Get(int? maxValue = null)
         {
             return this.GetSpy.Method(maxValue);
         }

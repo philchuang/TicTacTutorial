@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Com.PhilChuang.Apps.TicTacToe
 {
-    public abstract class RandomProviderBase
+    public interface IRandomProvider
     {
-        public abstract int Get(int? maxValue = null);
+        int Get(int? maxValue = null);
     }
 }

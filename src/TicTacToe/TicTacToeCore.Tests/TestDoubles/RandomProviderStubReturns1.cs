@@ -1,8 +1,8 @@
 ﻿namespace Com.PhilChuang.Apps.TicTacToe.Tests.TestDoubles
 {
-    public class RandomProviderStubReturns1 : RandomProviderBase
+    public class RandomProviderStubReturns1 : IRandomProvider
     {
-        public override int Get(int? maxValue = null)
+        public int Get(int? maxValue = null)
         {
             return 1;
         }

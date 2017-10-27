@@ -16,7 +16,7 @@ namespace Com.PhilChuang.Apps.TicTacToe.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            gameMgr = new GameManager();
+            gameMgr = new GameManager(null);
             game = gameMgr.CreateNew();
         }
 
